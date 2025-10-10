@@ -1,6 +1,7 @@
 # 🏠 Home Learning App
 
-**Home Learning App** is a personal portfolio application built with the purpose of:  
+**Home Learning App** is a personal portfolio application built with the
+surpose of:  
 
 - Showcasing myself and the projects I’ve worked on.  
 - Providing a space where people can **leave comments and interact**.  
@@ -12,9 +13,12 @@
 
 ## ✨ Features
 
-- **👤 Portfolio**: A dedicated section to introduce myself, skills, and projects.  
-- **💬 Comments**: Users can leave feedback or start discussions directly within the app.  
-- **🧮 Algorithm Visualization**: Interactive visual representations of algorithms for better understanding.  
+- **👤 Portfolio**: A dedicated section to introduce myself, skills, and
+projects.  
+- **💬 Comments**: Users can leave feedback or start discussions directly
+within the app.  
+- **🧮 Algorithm Visualization**: Interactive visual representations of
+algorithms for better understanding.  
 - **📝 To-do List**: A simple and effective daily task manager.  
 - **💰 Expense Tracker**: Track and visualize personal expenses.  
 - And more small features coming soon... 🚀  
@@ -24,7 +28,8 @@
 ## 🛠️ Tech Stack
 
 - **Frontend**: Flutter  
-- **Backend / Hosting**: Node.js/NestJs / Self-hosted server with domain [baohomeserver.uk](https://www.baohomeserver.uk/)  
+- **Backend / Hosting**: Node.js/NestJs / Self-hosted server with
+domain [baohomeserver.uk](https://www.baohomeserver.uk/)  
 - **Database**: *PostgreSQL*  
 - **Deployment**: Docker/Docker-compose (App Store / CH Play coming soon...)
 

@@ -1,25 +1,37 @@
+import 'package:donuts_app/features/auth/data/datasources/auth_bloc.dart';
+import 'package:donuts_app/features/auth/data/repositories/auth_repository_iml.dart';
+import 'package:donuts_app/features/auth/presentation/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
-import 'package:managment_app/common/widgets/bottom_navbar.dart';
-import 'package:managment_app/common/widgets/widget_tree.dart';
-import 'package:managment_app/core/themes/dark_theme.dart';
-import 'package:managment_app/core/themes/light_theme.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:donuts_app/common/widgets/widget_tree.dart';
+import 'package:donuts_app/core/themes/dark_theme.dart';
+import 'package:donuts_app/core/themes/light_theme.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const BaseApp());
 }
+
+ValueNotifier<ThemeMode> selectedTheme = ValueNotifier(ThemeMode.system);
 
 class BaseApp extends StatelessWidget {
   const BaseApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Home Server Management',
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: false,
-      home: BaseWidget(),
+    return ValueListenableBuilder(
+      valueListenable: selectedTheme,
+      builder: (context, selectedTheme, child) {
+        return MaterialApp(
+          title: 'Home Server Management',
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: selectedTheme,
+          debugShowCheckedModeBanner: false,
+          home: BaseWidget(),
+        );
+      },
     );
   }
 }
@@ -33,6 +45,7 @@ class BaseWidget extends StatefulWidget {
 
 class _BaseWidgetState extends State<BaseWidget> {
   int selectedItem = 0;
+  final repo = AuthRepositoryIml();
 
   @override
   void initState() {
@@ -41,10 +54,30 @@ class _BaseWidgetState extends State<BaseWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Home Server Management")),
-      body: WidgetTree(),
-      bottomNavigationBar: BottomNavBar(),
+    return BlocProvider(
+      create: (_) => AuthCubit(repo),
+      child: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          return Scaffold(
+            body: state.isAuthenticated ? WidgetTree() : WelcomePage(),
+            floatingActionButton: ValueListenableBuilder(
+              valueListenable: selectedTheme,
+              builder: (context, selected, child) {
+                return FloatingActionButton(
+                  onPressed: () {
+                    selectedTheme.value = selectedTheme.value == ThemeMode.dark
+                        ? ThemeMode.light
+                        : ThemeMode.dark;
+                  },
+                  child: selected == ThemeMode.dark
+                      ? Icon(Icons.brightness_2)
+                      : Icon(Icons.brightness_5),
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

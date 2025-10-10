@@ -1,4 +1,4 @@
-package com.example.managment_app
+package com.baohoang.donuts_app
 
 import io.flutter.embedding.android.FlutterActivity
 
