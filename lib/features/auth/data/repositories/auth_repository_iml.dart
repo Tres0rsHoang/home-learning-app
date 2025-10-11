@@ -15,7 +15,7 @@ class AuthRepositoryIml {
         options: Options(followRedirects: false, validateStatus: (_) => true),
       );
       if (response.statusCode == 200) {
-        final accessToken = response.data['access_token'];
+        final accessToken = response.data['accessToken'];
 
         final cookies = response.headers.map['set-cookie'];
         final refreshToken = _extractCookie(cookies ?? [], 'refresh_token');
@@ -47,8 +47,8 @@ class AuthRepositoryIml {
     try {
       _api.options.headers['Cookie'] = "refresh_token=$refreshToken";
       final response = await _api.post("${dotenv.env['API_URL']}/auth/refresh");
-      if (response.statusCode == 200) {
-        final accessToken = response.data['access_token'];
+      if (response.statusCode == 201) {
+        final accessToken = response.data['accessToken'];
         if (accessToken != null) {
           await _storage.write(key: 'access_token', value: accessToken);
           return true;

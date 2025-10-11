@@ -69,7 +69,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> check() async {
     emit(state.copyWith(isChecking: true));
-    await refresh();
-    emit(state.copyWith(isChecking: false));
+    final checkRefreshToken = await refresh();
+    emit(state.copyWith(isAuthenticated: checkRefreshToken, isChecking: false));
   }
 }
