@@ -24,7 +24,7 @@ class BaseApp extends StatelessWidget {
       valueListenable: selectedTheme,
       builder: (context, selectedTheme, child) {
         return MaterialApp(
-          title: 'Home Server Management',
+          title: 'Donuts App',
           theme: lightTheme,
           darkTheme: darkTheme,
           themeMode: selectedTheme,
@@ -59,6 +59,7 @@ class _BaseWidgetState extends State<BaseWidget> {
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: state.isAuthenticated ? WidgetTree() : WelcomePage(),
             floatingActionButton: ValueListenableBuilder(
               valueListenable: selectedTheme,

@@ -10,7 +10,7 @@ class AuthRepositoryIml {
   Future<bool> login(String username, String password) async {
     try {
       final response = await _api.post(
-        "${dotenv.env['API_URL']}/login",
+        "${dotenv.env['API_URL']}/auth/login",
         data: {'username': username, 'password': password},
         options: Options(followRedirects: false, validateStatus: (_) => true),
       );
@@ -44,6 +44,19 @@ class AuthRepositoryIml {
   Future<bool> refresh() async {
     final String? refreshToken = await _storage.read(key: 'refresh_token');
     if (refreshToken == null) return false;
-    return true;
+    try {
+      _api.options.headers['Cookie'] = "refresh_token=$refreshToken";
+      final response = await _api.post("${dotenv.env['API_URL']}/auth/refresh");
+      if (response.statusCode == 200) {
+        final accessToken = response.data['access_token'];
+        if (accessToken != null) {
+          await _storage.write(key: 'access_token', value: accessToken);
+          return true;
+        }
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 }
