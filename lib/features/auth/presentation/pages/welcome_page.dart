@@ -81,14 +81,24 @@ class _WelcomePageState extends State<WelcomePage>
                         builder: (context, state) {
                           if (state.isChecking) {
                             _controller.reverse();
-                            return LoadingAnimationWidget.progressiveDots(
-                              color: Theme.of(context).primaryColor,
-                              size: 70,
-                            );
                           } else {
                             _controller.forward();
                           }
-                          return SizedBox.shrink();
+                          return AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 600),
+                            transitionBuilder: (child, animation) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                            child: state.isChecking
+                                ? LoadingAnimationWidget.progressiveDots(
+                                    color: Theme.of(context).primaryColor,
+                                    size: 70,
+                                  )
+                                : SizedBox(height: 70),
+                          );
                         },
                       ),
                     ],
@@ -96,12 +106,18 @@ class _WelcomePageState extends State<WelcomePage>
                 ),
               ),
             ),
-            Transform.translate(
-              offset: Offset(
-                0,
-                _formPosition.value - MediaQuery.of(context).viewInsets.bottom,
-              ),
-              child: LoginForm(height: formHeight),
+            BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, state) {
+                if (state.isAuthenticated) return SizedBox.shrink();
+                return Transform.translate(
+                  offset: Offset(
+                    0,
+                    _formPosition.value -
+                        MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: LoginForm(height: formHeight),
+                );
+              },
             ),
           ],
         );

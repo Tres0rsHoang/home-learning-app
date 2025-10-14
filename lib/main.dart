@@ -1,3 +1,4 @@
+import 'package:donuts_app/common/widgets/bottom_navbar.dart';
 import 'package:donuts_app/features/auth/data/datasources/auth_bloc.dart';
 import 'package:donuts_app/features/auth/data/repositories/auth_repository_iml.dart';
 import 'package:donuts_app/features/auth/presentation/pages/welcome_page.dart';
@@ -60,7 +61,13 @@ class _BaseWidgetState extends State<BaseWidget> {
         builder: (context, state) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
-            body: state.isAuthenticated ? WidgetTree() : WelcomePage(),
+            body: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 600),
+              transitionBuilder: (child, animation) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+              child: state.isAuthenticated ? WidgetTree() : WelcomePage(),
+            ),
             floatingActionButton: ValueListenableBuilder(
               valueListenable: selectedTheme,
               builder: (context, selected, child) {

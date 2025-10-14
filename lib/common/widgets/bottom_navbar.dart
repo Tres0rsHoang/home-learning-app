@@ -10,15 +10,15 @@ class BottomNavBar extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: selectedTabNotifier,
       builder: (context, selectedTab, child) {
-        return BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
+        return NavigationBar(
+          destinations: [
+            NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+            NavigationDestination(icon: Icon(Icons.person), label: "User"),
           ],
-          onTap: (newIndex) {
+          onDestinationSelected: (newIndex) {
             selectedTabNotifier.value = newIndex;
           },
-          currentIndex: selectedTab,
+          selectedIndex: selectedTab,
         );
       },
     );

@@ -20,6 +20,22 @@ final ThemeData lightTheme = ThemeData(
   primaryColor: const Color(0xFFFED90F),
   scaffoldBackgroundColor: const Color(0xFF77D1F6),
   cardColor: const Color(0xFFFFF9E3),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    backgroundColor: Color(0xFFFED90F),
+    selectedItemColor: Color(0xFFFF6EC7),
+    unselectedItemColor: Color(0xFF2F2F2F),
+    selectedIconTheme: IconThemeData(size: 30),
+    unselectedIconTheme: IconThemeData(size: 26),
+    showSelectedLabels: true,
+    showUnselectedLabels: true,
+    selectedLabelStyle: TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Color(0xFFFF6EC7),
+    ),
+    unselectedLabelStyle: TextStyle(color: Color(0xFF2F2F2F)),
+    type: BottomNavigationBarType.fixed,
+    elevation: 12,
+  ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
       backgroundColor: WidgetStateProperty.resolveWith<Color?>((states) {
